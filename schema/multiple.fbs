@@ -1,0 +1,10 @@
+include "individual.fbs";
+
+table Group {
+    name:string;
+    age:float;
+    weight:float;
+    people:[Person];
+}
+
+root_type Group;

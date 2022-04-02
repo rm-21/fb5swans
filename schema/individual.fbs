@@ -1,0 +1,10 @@
+enum Gender: byte {Female, Male} // stored as 0 - F, 1 - M
+
+table Person {
+    name: string;
+    age: float;
+    weight: float;
+    gender: Gender;
+}
+
+root_type Person;

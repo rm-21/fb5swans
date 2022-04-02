@@ -1,7 +1,7 @@
 import Group, Person, Gender
 import os
 
-FILE = "D:\\fb5swans\\java"
+FILE = "D:\\fb5swans\\java\\out\\production\\java"
 file_list = os.listdir(FILE)
 
 

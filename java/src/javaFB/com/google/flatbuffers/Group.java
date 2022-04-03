@@ -13,35 +13,39 @@ public final class Group extends Table {
   public void __init(int _i, ByteBuffer _bb) { __reset(_i, _bb); }
   public Group __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public String name() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }
-  public ByteBuffer nameAsByteBuffer() { return __vector_as_bytebuffer(4, 1); }
-  public ByteBuffer nameInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 4, 1); }
-  public float age() { int o = __offset(6); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
-  public float weight() { int o = __offset(8); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
+  public boolean group() { int o = __offset(4); return o != 0 ? 0!=bb.get(o + bb_pos) : false; }
+  public String name() { int o = __offset(6); return o != 0 ? __string(o + bb_pos) : null; }
+  public ByteBuffer nameAsByteBuffer() { return __vector_as_bytebuffer(6, 1); }
+  public ByteBuffer nameInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 6, 1); }
+  public float age() { int o = __offset(8); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
+  public float weight() { int o = __offset(10); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
   public Person people(int j) { return people(new Person(), j); }
-  public Person people(Person obj, int j) { int o = __offset(10); return o != 0 ? obj.__assign(__indirect(__vector(o) + j * 4), bb) : null; }
-  public int peopleLength() { int o = __offset(10); return o != 0 ? __vector_len(o) : 0; }
+  public Person people(Person obj, int j) { int o = __offset(12); return o != 0 ? obj.__assign(__indirect(__vector(o) + j * 4), bb) : null; }
+  public int peopleLength() { int o = __offset(12); return o != 0 ? __vector_len(o) : 0; }
   public Person.Vector peopleVector() { return peopleVector(new Person.Vector()); }
-  public Person.Vector peopleVector(Person.Vector obj) { int o = __offset(10); return o != 0 ? obj.__assign(__vector(o), 4, bb) : null; }
+  public Person.Vector peopleVector(Person.Vector obj) { int o = __offset(12); return o != 0 ? obj.__assign(__vector(o), 4, bb) : null; }
 
   public static int createGroup(FlatBufferBuilder builder,
+      boolean group,
       int nameOffset,
       float age,
       float weight,
       int peopleOffset) {
-    builder.startTable(4);
+    builder.startTable(5);
     Group.addPeople(builder, peopleOffset);
     Group.addWeight(builder, weight);
     Group.addAge(builder, age);
     Group.addName(builder, nameOffset);
+    Group.addGroup(builder, group);
     return Group.endGroup(builder);
   }
 
-  public static void startGroup(FlatBufferBuilder builder) { builder.startTable(4); }
-  public static void addName(FlatBufferBuilder builder, int nameOffset) { builder.addOffset(0, nameOffset, 0); }
-  public static void addAge(FlatBufferBuilder builder, float age) { builder.addFloat(1, age, 0.0f); }
-  public static void addWeight(FlatBufferBuilder builder, float weight) { builder.addFloat(2, weight, 0.0f); }
-  public static void addPeople(FlatBufferBuilder builder, int peopleOffset) { builder.addOffset(3, peopleOffset, 0); }
+  public static void startGroup(FlatBufferBuilder builder) { builder.startTable(5); }
+  public static void addGroup(FlatBufferBuilder builder, boolean group) { builder.addBoolean(0, group, false); }
+  public static void addName(FlatBufferBuilder builder, int nameOffset) { builder.addOffset(1, nameOffset, 0); }
+  public static void addAge(FlatBufferBuilder builder, float age) { builder.addFloat(2, age, 0.0f); }
+  public static void addWeight(FlatBufferBuilder builder, float weight) { builder.addFloat(3, weight, 0.0f); }
+  public static void addPeople(FlatBufferBuilder builder, int peopleOffset) { builder.addOffset(4, peopleOffset, 0); }
   public static int createPeopleVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
   public static void startPeopleVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
   public static int endGroup(FlatBufferBuilder builder) {

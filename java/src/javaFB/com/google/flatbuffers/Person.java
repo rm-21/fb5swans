@@ -13,31 +13,35 @@ public final class Person extends Table {
   public void __init(int _i, ByteBuffer _bb) { __reset(_i, _bb); }
   public Person __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public String name() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }
-  public ByteBuffer nameAsByteBuffer() { return __vector_as_bytebuffer(4, 1); }
-  public ByteBuffer nameInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 4, 1); }
-  public float age() { int o = __offset(6); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
-  public float weight() { int o = __offset(8); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
-  public byte gender() { int o = __offset(10); return o != 0 ? bb.get(o + bb_pos) : 0; }
+  public boolean group() { int o = __offset(4); return o != 0 ? 0!=bb.get(o + bb_pos) : false; }
+  public String name() { int o = __offset(6); return o != 0 ? __string(o + bb_pos) : null; }
+  public ByteBuffer nameAsByteBuffer() { return __vector_as_bytebuffer(6, 1); }
+  public ByteBuffer nameInByteBuffer(ByteBuffer _bb) { return __vector_in_bytebuffer(_bb, 6, 1); }
+  public float age() { int o = __offset(8); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
+  public float weight() { int o = __offset(10); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
+  public byte gender() { int o = __offset(12); return o != 0 ? bb.get(o + bb_pos) : 0; }
 
   public static int createPerson(FlatBufferBuilder builder,
+      boolean group,
       int nameOffset,
       float age,
       float weight,
       byte gender) {
-    builder.startTable(4);
+    builder.startTable(5);
     Person.addWeight(builder, weight);
     Person.addAge(builder, age);
     Person.addName(builder, nameOffset);
     Person.addGender(builder, gender);
+    Person.addGroup(builder, group);
     return Person.endPerson(builder);
   }
 
-  public static void startPerson(FlatBufferBuilder builder) { builder.startTable(4); }
-  public static void addName(FlatBufferBuilder builder, int nameOffset) { builder.addOffset(0, nameOffset, 0); }
-  public static void addAge(FlatBufferBuilder builder, float age) { builder.addFloat(1, age, 0.0f); }
-  public static void addWeight(FlatBufferBuilder builder, float weight) { builder.addFloat(2, weight, 0.0f); }
-  public static void addGender(FlatBufferBuilder builder, byte gender) { builder.addByte(3, gender, 0); }
+  public static void startPerson(FlatBufferBuilder builder) { builder.startTable(5); }
+  public static void addGroup(FlatBufferBuilder builder, boolean group) { builder.addBoolean(0, group, false); }
+  public static void addName(FlatBufferBuilder builder, int nameOffset) { builder.addOffset(1, nameOffset, 0); }
+  public static void addAge(FlatBufferBuilder builder, float age) { builder.addFloat(2, age, 0.0f); }
+  public static void addWeight(FlatBufferBuilder builder, float weight) { builder.addFloat(3, weight, 0.0f); }
+  public static void addGender(FlatBufferBuilder builder, byte gender) { builder.addByte(4, gender, 0); }
   public static int endPerson(FlatBufferBuilder builder) {
     int o = builder.endTable();
     return o;

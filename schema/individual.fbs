@@ -1,6 +1,7 @@
 enum Gender: byte {Female, Male} // stored as 0 - F, 1 - M
 
 table Person {
+    group: bool = false;
     name: string;
     age: float;
     weight: float;

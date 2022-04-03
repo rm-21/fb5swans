@@ -1,5 +1,6 @@
 import Group, Person, Gender
 import os
+import sys
 
 FILE = "D:\\fb5swans\\java\\out\\production\\java"
 file_list = os.listdir(FILE)
@@ -62,5 +63,10 @@ class BinaryReader:
 
 
 if __name__ == "__main__":
-    obj = BinaryReader(FILE)
+    if len(sys.argv) == 1:
+        path = FILE
+    else:
+        path = sys.argv[1]
+
+    obj = BinaryReader(path)
     obj.reader()

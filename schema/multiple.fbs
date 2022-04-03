@@ -1,7 +1,7 @@
 include "individual.fbs";
 
 table Group {
-    group: bool = true;
+    group: bool;
     name:string;
     age:float;
     weight:float;

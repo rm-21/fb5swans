@@ -25,50 +25,61 @@ class Person(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # Person
-    def Name(self):
+    def Group(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Person
+    def Name(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
     # Person
     def Age(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
-        return 0.0
-
-    # Person
-    def Weight(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
     # Person
-    def Gender(self):
+    def Weight(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+        return 0.0
+
+    # Person
+    def Gender(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Int8Flags, o + self._tab.Pos)
         return 0
 
-def Start(builder): builder.StartObject(4)
+def Start(builder): builder.StartObject(5)
 def PersonStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddGroup(builder, group): builder.PrependBoolSlot(0, group, 0)
+def PersonAddGroup(builder, group):
+    """This method is deprecated. Please switch to AddGroup."""
+    return AddGroup(builder, group)
+def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
 def PersonAddName(builder, name):
     """This method is deprecated. Please switch to AddName."""
     return AddName(builder, name)
-def AddAge(builder, age): builder.PrependFloat32Slot(1, age, 0.0)
+def AddAge(builder, age): builder.PrependFloat32Slot(2, age, 0.0)
 def PersonAddAge(builder, age):
     """This method is deprecated. Please switch to AddAge."""
     return AddAge(builder, age)
-def AddWeight(builder, weight): builder.PrependFloat32Slot(2, weight, 0.0)
+def AddWeight(builder, weight): builder.PrependFloat32Slot(3, weight, 0.0)
 def PersonAddWeight(builder, weight):
     """This method is deprecated. Please switch to AddWeight."""
     return AddWeight(builder, weight)
-def AddGender(builder, gender): builder.PrependInt8Slot(3, gender, 0)
+def AddGender(builder, gender): builder.PrependInt8Slot(4, gender, 0)
 def PersonAddGender(builder, gender):
     """This method is deprecated. Please switch to AddGender."""
     return AddGender(builder, gender)

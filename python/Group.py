@@ -25,29 +25,36 @@ class Group(object):
         self._tab = flatbuffers.table.Table(buf, pos)
 
     # Group
-    def Name(self):
+    def Group(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return bool(self._tab.Get(flatbuffers.number_types.BoolFlags, o + self._tab.Pos))
+        return False
+
+    # Group
+    def Name(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
         if o != 0:
             return self._tab.String(o + self._tab.Pos)
         return None
 
     # Group
     def Age(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(6))
-        if o != 0:
-            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
-        return 0.0
-
-    # Group
-    def Weight(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(8))
         if o != 0:
             return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
         return 0.0
 
     # Group
-    def People(self, j):
+    def Weight(self):
         o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        if o != 0:
+            return self._tab.Get(flatbuffers.number_types.Float32Flags, o + self._tab.Pos)
+        return 0.0
+
+    # Group
+    def People(self, j):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             x = self._tab.Vector(o)
             x += flatbuffers.number_types.UOffsetTFlags.py_type(j) * 4
@@ -60,33 +67,37 @@ class Group(object):
 
     # Group
     def PeopleLength(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         if o != 0:
             return self._tab.VectorLen(o)
         return 0
 
     # Group
     def PeopleIsNone(self):
-        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(10))
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(12))
         return o == 0
 
-def Start(builder): builder.StartObject(4)
+def Start(builder): builder.StartObject(5)
 def GroupStart(builder):
     """This method is deprecated. Please switch to Start."""
     return Start(builder)
-def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(0, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
+def AddGroup(builder, group): builder.PrependBoolSlot(0, group, 0)
+def GroupAddGroup(builder, group):
+    """This method is deprecated. Please switch to AddGroup."""
+    return AddGroup(builder, group)
+def AddName(builder, name): builder.PrependUOffsetTRelativeSlot(1, flatbuffers.number_types.UOffsetTFlags.py_type(name), 0)
 def GroupAddName(builder, name):
     """This method is deprecated. Please switch to AddName."""
     return AddName(builder, name)
-def AddAge(builder, age): builder.PrependFloat32Slot(1, age, 0.0)
+def AddAge(builder, age): builder.PrependFloat32Slot(2, age, 0.0)
 def GroupAddAge(builder, age):
     """This method is deprecated. Please switch to AddAge."""
     return AddAge(builder, age)
-def AddWeight(builder, weight): builder.PrependFloat32Slot(2, weight, 0.0)
+def AddWeight(builder, weight): builder.PrependFloat32Slot(3, weight, 0.0)
 def GroupAddWeight(builder, weight):
     """This method is deprecated. Please switch to AddWeight."""
     return AddWeight(builder, weight)
-def AddPeople(builder, people): builder.PrependUOffsetTRelativeSlot(3, flatbuffers.number_types.UOffsetTFlags.py_type(people), 0)
+def AddPeople(builder, people): builder.PrependUOffsetTRelativeSlot(4, flatbuffers.number_types.UOffsetTFlags.py_type(people), 0)
 def GroupAddPeople(builder, people):
     """This method is deprecated. Please switch to AddPeople."""
     return AddPeople(builder, people)

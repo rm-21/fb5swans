@@ -29,7 +29,7 @@ class BinaryReader:
         age = person.Age()
         weight = person.Weight()
         gender = person.Gender()
-        return [name.decode("utf-8"), age, weight, gender]
+        return [name.decode("utf-8"), age, weight, "Male" if gender == 1 else "Female"]
 
     def group_reader(self, file_loc):
         with open(file_loc, "rb") as f:
@@ -49,7 +49,7 @@ class BinaryReader:
                     person.Name().decode("utf-8"),
                     person.Age(),
                     person.Weight(),
-                    person.Gender(),
+                    "Male" if person.Gender() == 1 else "Female",
                 ]
             )
 

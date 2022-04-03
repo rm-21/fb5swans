@@ -10,8 +10,8 @@ public class BinaryBuilder {
         byte[] person1 = buildIndividual("Ram", 21, 76.5f, Gender.Male);
         writeToBinary(person1, "individual1");
 
-        byte[] person2 = buildIndividual("Shayam", 24.5f, 110.0f, Gender.Male);
-        writeToBinary(person1, "individual2");
+        byte[] person2 = buildIndividual("Shayam", 24.5f, 110.0f, Gender.Female);
+        writeToBinary(person2, "individual2");
 
         CharSequence[] names = {"Ram", "Shayam", "Raghuveer"};
         float[] age = {24.0f, 24.5f, 25.0f};

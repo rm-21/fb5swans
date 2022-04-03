@@ -11,46 +11,56 @@ class BinaryReader:
         self.files = [f for f in os.listdir(self.file_path) if ".bin" in f]
         self.files_loc = [os.path.join(self.file_path, f) for f in self.files]
 
-    def individual_reader(self):
+    def reader(self):
         for file_loc in self.files_loc:
-            if os.path.basename(file_loc) == "individualBinary.bin":
-                with open(file_loc, "rb") as f:
-                    buffer = f.read()
-                person = Person.Person.GetRootAs(buffer, 0)
-                name = person.Name()
-                age = person.Age()
-                weight = person.Weight()
-                gender = person.Gender()
-                return [name.decode("utf-8"), age, weight, gender]
+            with open(file_loc, "rb") as f:
+                buffer = f.read()
+            type = Person.Person.GetRootAs(buffer, 0)
+            if type.Group():
+                print(self.group_reader(file_loc), end="\n")
+            if not type.Group():
+                print(self.individual_reader(file_loc), end="\n")
 
-    def group_reader(self):
-        for file_loc in self.files_loc:
-            if os.path.basename(file_loc) == "groupBinary.bin":
-                with open(file_loc, "rb") as f:
-                    buffer = f.read()
+    def individual_reader(self, file_loc):
+        with open(file_loc, "rb") as f:
+            buffer = f.read()
+        person = Person.Person.GetRootAs(buffer, 0)
+        name = person.Name()
+        age = person.Age()
+        weight = person.Weight()
+        gender = person.Gender()
+        return [name.decode("utf-8"), age, weight, gender]
 
-            group = Group.Group.GetRootAs(buffer, 0)
+    def group_reader(self, file_loc):
+        with open(file_loc, "rb") as f:
+            buffer = f.read()
 
-            name = group.Name()
-            age = group.Age()
-            weight = group.Weight()
-            people = []
+        group = Group.Group.GetRootAs(buffer, 0)
 
-            for i in range(group.PeopleLength()):
-                person = group.People(i)
-                people.append(
-                    [person.Name(), person.Age(), person.Weight(), person.Gender()]
-                )
+        name = group.Name()
+        age = group.Age()
+        weight = group.Weight()
+        people = []
 
-            return [
-                name.decode("utf-8"),
-                age,
-                weight,
-                [ls[0].decode("utf-8") for ls in people],
-            ], people
+        for i in range(group.PeopleLength()):
+            person = group.People(i)
+            people.append(
+                [
+                    person.Name().decode("utf-8"),
+                    person.Age(),
+                    person.Weight(),
+                    person.Gender(),
+                ]
+            )
+
+        return [
+            name.decode("utf-8"),
+            age,
+            weight,
+            [ls[0] for ls in people],
+        ], people
 
 
 if __name__ == "__main__":
     obj = BinaryReader(FILE)
-    print(obj.individual_reader())
-    print(obj.group_reader()[0])
+    obj.reader()

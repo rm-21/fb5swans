@@ -25,6 +25,9 @@ The data is encoded by Java and decoded by Python. This was a design decision si
 ['Shayam', 24.5, 110.0, 'Female']
 ```
 
+* `line[0][0]` contains the details of the `Client`, `Group` - `FightClub`. `line[0][1]` contains the details of each individual member.
+* `line[2]` and `line[2]` contains the details of the `Client`, `Individual`.
+
 # Modifications
 1. Navigate to the `fb5swans/java/src/javaFB/com/google/flatbuffers/BinaryBuilder.java` on your local system. This file contains the code to build the `.bin` files.
 2. In the `main` method, you will see multiple `byte[] <arrName>`. The `buildIndividual` function builds a single Client. The `buildGroup` function takes a creates a vector of multiple individuals. The attributes, namely, `names`, `age`, `weight`, `g <gender>`, need to passed as arrays with appropriate types as indicated in the example.

@@ -18,6 +18,13 @@ The data is encoded by Java and decoded by Python. This was a design decision si
     * Run the command `fb_decoder.bat %1 %2`
     * `%1` - location of python folder of fb5swans || `%2` - location of the folder containing the `.bin` files.
 
+# Expected Output
+```python
+(['FightClub', 24.5, 107.0, ['Ram', 'Shayam', 'Raghuveer']], [['Ram', 24.0, 100.0, 'Male'], ['Shayam', 24.5, 110.0, 'Female'], ['Raghuveer', 25.0, 111.0, 'Male'])
+['Ram', 21.0, 76.5, 'Male']
+['Shayam', 24.5, 110.0, 'Female']
+```
+
 # Modifications
 1. Navigate to the `fb5swans/java/src/javaFB/com/google/flatbuffers/BinaryBuilder.java` on your local system. This file contains the code to build the `.bin` files.
 2. In the `main` method, you will see multiple `byte[] <arrName>`. The `buildIndividual` function builds a single Client. The `buildGroup` function takes a creates a vector of multiple individuals. The attributes, namely, `names`, `age`, `weight`, `g <gender>`, need to passed as arrays with appropriate types as indicated in the example.
